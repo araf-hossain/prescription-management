@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,13 @@ Route::get('/', function () {
     return view('auth.patients-login');
 });
 
+Route::get('/admin/login', function () {
+    return view('auth.login');
+});
+
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('/patients')->group(function(){
   Route::get('/login', [App\Http\Controllers\Auth\PatientLoginController::class, 'showLoginForm'])->name('patients.login');
@@ -54,4 +61,13 @@ Route::prefix('/doctors')->group(function(){
   Route::get('/profile/{doctor}', [App\Http\Controllers\DoctorController::class, 'showProfile'])->name('doctors.profile');
   Route::post('/profile/{doctor}', [App\Http\Controllers\DoctorController::class, 'updateProfile'])->name('doctors.profile.submit');
   Route::get('/see_patient_profile/{patient}', [App\Http\Controllers\DoctorController::class, 'seePatientProfile'])->name('doctors.patients.seeprofile');
+});
+
+Route::prefix('/admin')->group(function(){
+    Route::get('/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+    Route::get('/profile',[AdminController::class,'profile'])->name('admin.profile');
+    Route::get('/doctor/list',[AdminController::class,'doctor_list'])->name('admin.doctor.list');
+    Route::post('/doctor/status',[AdminController::class,'doctor_status'])->name('admin.doctor.status');
+    Route::get('/patient/list',[AdminController::class,'patient_list'])->name('admin.patient.list');
+    Route::post('/patient/status',[AdminController::class,'patient_status'])->name('admin.patient.status');
 });

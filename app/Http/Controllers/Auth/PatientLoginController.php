@@ -22,6 +22,14 @@ class PatientLoginController extends Controller
       'password' => 'required'
     ]);
     if(Auth::guard('patient')->attempt(['email' => request()->email, 'password' => request()->password], request()->remember)){
+
+        if( Auth::guard('patient')->user()->status == '0') {
+            Auth::logout();
+            request()->session()->flush();
+            request()->session()->regenerate();
+            return redirect()->route('patients.login')->withErrors(['Your account is not active yet!']);
+        }
+
       return redirect()->route('patients.index');
     }
     else{

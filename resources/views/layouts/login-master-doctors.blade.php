@@ -28,7 +28,7 @@
       </ul>
       <nav class="blue darken-2">
         <div class="container nav-wrapper">
-          <a href="{{ route('home') }}" class="brand-logo">Online Prescription</a>
+          <a href="{{ route('patients.login') }}" class="brand-logo">Online Prescription</a>
           <a href="#!" data-target="side-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             @yield('topnavoptions')

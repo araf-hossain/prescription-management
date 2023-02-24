@@ -23,12 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // if (request()->is('doctors/*')) {
-        //     return redirect()->route('doctors.login');
-        // }
-        // if (request()->is('patients/*')) {
-        //     return redirect()->route('patients.login');
-        // }
-        return view('home');
+        if (request()->is('doctors/*')) {
+            return redirect()->route('doctors.login');
+        } else if (request()->is('patients/*')) {
+            return redirect()->route('patients.login');
+        } else {
+            return redirect()->route('patients.login');
+        }
+        // return view('auth.login');
+
     }
 }
