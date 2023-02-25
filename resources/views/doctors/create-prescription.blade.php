@@ -5,6 +5,13 @@
   .smallmargintop{
     margin-top: 10px;
   }
+
+  .checkbox{
+    opacity: unset !important;
+    position: unset !important;
+    width: 20px;
+    pointer-events: unset !important;
+  }
 </style>
 <link rel="stylesheet" href="/css/prescription-modal.css">
 @endsection
@@ -13,7 +20,7 @@
 <div class="container">
   <div class="row">
     <br>
-    <div class="card col s12 l6 offset-l3">
+    <div class="card col-8 s12 l6 offset-8">
       <form class="row nomarginbottom card-content" id="prescription-form" action="{{ route('doctors.prescriptions.store') }}" method="post">
         @csrf
         <input type="hidden" name="consultation_id" value="{{ $consultation->id }}">
@@ -28,13 +35,33 @@
           <label for="care_taken">Care To Be Taken</label>
           <span class="helper-text" data-error="Required*" data-success="">@error('care_taken') {{$message}} @enderror</span>
         </div>
-        <div class="input-field col s12">
+        <!-- <div class="input-field col s12">
           <textarea name="medicines" id="medicines" class="materialize-textarea validate"></textarea>
           <label for="medicines">Medicines to be used</label>
           <span class="helper-text" data-error="Required*" data-success="">@error('medicines') {{$message}} @enderror</span>
+        </div> -->
+        @for($i=0; $i<=2; $i++)
+        <div class="input-field col s12">
+          <input type="text" name="medicines[{{$i}}][medicine]" id="medicines_{{$i}}">
+          <label for="medicines_{{$i}}">Medicines</label>
         </div>
+        <div class="input-field col s6">
+            <input type="text" name="medicines[{{$i}}][timeline]" id="timeline_{{$i}}">
+            <label for="timeline_{{$i}}">Timeline</label>
+        </div>
+        <div class="col s6">
+            <p>Schedule</p>
+            <input type="checkbox" class="checkbox" name="medicines[{{$i}}][schedule][morning]" value="morning" id="schedule_morning_{{$i}}">
+            <label for="schedule_morning_{{$i}}">Morning</label>
+            <input type="checkbox" class="checkbox" name="medicines[{{$i}}][schedule][midday]" value="midday" id="schedule_midday_{{$i}}">
+            <label for="schedule_midday_{{$i}}">Midday</label>
+            <input type="checkbox" class="checkbox" name="medicines[{{$i}}][schedule][night]" value="night" id="schedule_night_{{$i}}">
+            <label for="schedule_night_{{$i}}">Night</label>
+        </div>
+        @endfor
         <div class="input-field col s12 center">
-          <button type="button" class="btn blue longbuttons" id="previewprescription">Preview</button>
+          <!-- <button type="button" class="btn blue longbuttons" id="previewprescription">Preview</button> -->
+          <button type="button" id="submitbutton" class="btn blue waves-effect">Submit</button>
         </div>
         <div class="col s12 center small-text margintop">
           <a href="{{ route('doctors.index') }}" class="underlined">&larr; Back To Consultations</a>

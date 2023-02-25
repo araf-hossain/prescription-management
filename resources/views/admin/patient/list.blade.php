@@ -13,7 +13,7 @@
                         <th>Age</th>
                         <th>Email</th>
                         <th>contact</th>
-                        <th>History of Illness</th>
+                        <th>history_of_illness</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>

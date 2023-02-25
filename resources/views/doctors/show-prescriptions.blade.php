@@ -59,9 +59,37 @@
             </div>
             <div class="col s12 l6 marginbottom pdivs">
               <p><b>Medicines:</b></p>
-              <p class="small-text">
-                {!! nl2br($prescription->medicines) !!}
-              </p>
+              @php
+                $medicines = json_decode($prescription->medicines,true);
+              @endphp
+              <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Timeline</th>
+                        <th>schedule</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if( !empty( $medicines ) )
+                    @foreach( $medicines as $target)
+                        <tr>
+                            <td>
+                                {{ $target['medicine'] ?? '' }}
+                            </td>
+                            <td>
+                                {{ $target['timeline'] ?? '' }}
+                            </td>
+                            <td>
+                                @if($target['schedule'])
+                                {{ implode(", ", $target['schedule'])  }}
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+              </table>
             </div>
           </div>
           @php

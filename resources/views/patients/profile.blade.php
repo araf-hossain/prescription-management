@@ -112,7 +112,7 @@
               <div class="col s12">
                 <p><b class="blue-grey-text">Surgery Details:</b></p>
                 <p class="small-text">
-                  {!! nl2br($surgeries[$loop->index]) !!}
+                  {!! nl2br($surgeries[$loop->index] ?? '') !!}
                 </p>
               </div>
             </div>

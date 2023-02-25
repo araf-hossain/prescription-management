@@ -19,8 +19,9 @@ class ConsultationController extends Controller
           'illness_title' => 'required',
           'illness_description' => 'required',
           'time_span' => 'required',
-          'transaction_id' => 'required',
+          'transaction_id' => 'required'
         ]);
+
         $data['doctor_id'] = $doctor->id;
         $data1 = [];
         if(request()->has('family_is_diabetic')){
@@ -35,9 +36,17 @@ class ConsultationController extends Controller
         $illnessarray = $patient->history_of_illness;
         $surgeryarray = $patient->history_of_surgery;
         array_push($illnessarray, $data['illness_description']);
-        array_push($surgeryarray, $data['surgery_details']);
-        $data1['history_of_illness'] = $illnessarray;
+        array_push($surgeryarray, request()->surgery_details);
+
+        // if( !empty( request()->surgery_details ) ) {
+        //   array_push($surgeryarray, request()->surgery_details);
+        // }
+
+        $data1['history_of_illness'] = $illnessarray ;
         $data1['history_of_surgery'] = $surgeryarray;
+
+        $data['surgery_details'] = request()->surgery_details;
+
         $patient->update($data1);
         $patient->consultations()->create($data);
         return redirect()->route('patients.prescriptions')->with('custommsg', 'Consultation submitted')->with('classes', 'green darken-1');

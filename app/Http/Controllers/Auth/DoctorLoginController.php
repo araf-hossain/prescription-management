@@ -54,7 +54,7 @@ class DoctorLoginController extends Controller
       'speciality' => 'required',
       'email' => 'required|regex:/(.*)@(.*)\.(.{2,})/i',
       'password' => 'required|confirmed|min:8',
-      'contact' => 'digits:10',
+      'contact' => 'digits:11',
       'yrs_of_exp' => 'required|min:0',
     ]);
     $data['password'] = Hash::make($data['password']);

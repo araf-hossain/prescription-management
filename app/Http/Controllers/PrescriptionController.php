@@ -33,8 +33,20 @@ class PrescriptionController extends Controller
     if(request()->has('consultation_id')){
       $data = request()->validate([
         'care_taken' => 'required',
-        'medicines' => 'required',
-      ]);
+        'medicines.0.medicine' =>'required',
+        'medicines.0.timeline' =>'required',
+        'medicines.0.schedule' =>'required',
+      ],
+      [
+        'medicines.0.medicine.required' => 'The 1st medicine field is required.',
+        'medicines.0.timeline.required' => 'The 1st timeline field is required.',
+        'medicines.0.schedule.required' => 'The 1st schedule field is required.',
+      ]
+    );
+
+    $arr_to_str_medicines = json_encode(request()->medicines);
+    $data['medicines'] = $arr_to_str_medicines;
+
       $consultation = Consultation::find(request()->consultation_id);
       $prescription = $consultation->prescription()->create($data);
       $pdf = PDF::loadView('prescription-pdf', ['consultation' => $consultation, 'prescription' => $prescription]);
@@ -51,10 +63,23 @@ class PrescriptionController extends Controller
 
   public function update(){
     if(request()->has('prescription_id')){
-      $data = request()->validate([
+
+    $data = request()->validate([
         'care_taken' => 'required',
-        'medicines' => 'required',
-      ]);
+        'medicines.0.medicine' =>'required',
+        'medicines.0.timeline' =>'required',
+        'medicines.0.schedule' =>'required',
+      ],
+      [
+        'medicines.0.medicine.required' => 'The 1st medicine field is required.',
+        'medicines.0.timeline.required' => 'The 1st timeline field is required.',
+        'medicines.0.schedule.required' => 'The 1st schedule field is required.',
+      ]
+    );
+
+      $arr_to_str_medicines = json_encode(request()->medicines);
+      $data['medicines'] = $arr_to_str_medicines;
+
       $prescription = Prescription::find(request()->prescription_id);
       $consultation = $prescription->consultation()->first();
       $pdf = PDF::loadView('prescription-pdf', ['consultation' => $consultation, 'prescription' => $prescription]);

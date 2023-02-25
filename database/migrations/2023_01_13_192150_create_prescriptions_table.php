@@ -17,7 +17,7 @@ class CreatePrescriptionsTable extends Migration
             $table->id();
             $table->foreignId('consultation_id')->constrained();
             $table->string('care_taken', 500);
-            $table->string('medicines');
+            $table->text('medicines');
             $table->string('prescription_link')->nullable();
             $table->timestamps();
         });
